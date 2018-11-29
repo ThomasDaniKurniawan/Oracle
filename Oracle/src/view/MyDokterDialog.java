@@ -15,6 +15,9 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.table.TableModel;
+import model_RS.Dokter;
 import model_RS.RumahSakit;
 
 /**
@@ -64,6 +67,12 @@ public class MyDokterDialog extends JDialog {
         });
         // tombol untuk simpan data arrayList Dokter ke basis data
         simpanButton = new JButton("Simpan Ke Database");
+        simpanButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                rs.simpanDataDokter();
+            }
+        });
         tombolPanel.add(simpanButton);
         add(tombolPanel,BorderLayout.NORTH);
         // set visible
@@ -73,13 +82,16 @@ public class MyDokterDialog extends JDialog {
      * Fungsi untuk memanggil dialog tambah Dokter
      */
     public void tambahDokter(){
-        TambahDokterDialog tambahDokter = new TambahDokterDialog(this, rs);
-        tambahDokter.setVisible(true);
+      TambahDokterDialog tambahDokter = new TambahDokterDialog(this, rs);
+      tambahDokter.setVisible(true);
     }
     /**
      * Fungsi untuk merefresh isi tabel dokter
      */
     public void refreshTabelDokter(){
+//        TambahDokterDialog tdd = new TambahDokterDialog(this, rs);
+        table.setModel(new DokterTableModel(rs.getDaftarDokter()));
+    
         
     }
 

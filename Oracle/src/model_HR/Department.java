@@ -5,7 +5,14 @@
  */
 package model_HR;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import util.MyOracle;
 
 /**
  *
@@ -32,8 +39,37 @@ public class Department {
      * Fungsi untuk membaca daftar/table employee lalu dipindahkan ke list daftar employees;
      */
     public void readEmployees() {
-
-    }
+ try {
+            // buat koneksi
+            MyOracle ora = new MyOracle("172.23.9.185", "1521", "orcl", "MHS175314126", "MHS175314126");
+            //step2 create  the connection object
+            Connection con = ora.getConnection();
+            //step3 create the statement object
+            Statement stmt = con.createStatement();
+            //step4 execute query
+            String query = "select T.FIRST_NAME, T.LAST_NAME\n" +
+            "from MHS175314126.EMPLOYEES T\n" +
+            "where T.DEPARTMENT_ID = 10";
+            ResultSet rs = stmt.executeQuery(query);
+//            if (deparment_ID == 10) {
+            while (rs.next()) {
+                
+                                   
+//                System.out.println(rs.getString(1) + "  " + rs.getString(2));
+//                  Region reg = new Region(rs.getInt(1),rs.getString(2));
+                  Employee emp = new Employee(rs.getString(1), rs.getString(2));
+                  listEmployees.add(emp);
+                }
+//            }
+            //step5 close the connection object
+            con.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(World.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }  
+    /**
+     * @return the deparment_ID
+     */    
 
     /**
      * Fungsi untuk membaca manager sebuah departemen

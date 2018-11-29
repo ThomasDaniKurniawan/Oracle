@@ -72,7 +72,11 @@ public class RumahSakit {
                             + "VALUES ('" + temp.getIdDokter() + "','"
                             + temp.getNama() + "')";
                     // eksekusi query
+                    try{
                     statement.execute(query);
+                    }catch(Exception ex){
+                        System.out.println("perintah insert gagal");
+                    }
                     con.commit();
                 }
             }
@@ -97,14 +101,14 @@ public class RumahSakit {
             Statement statement = con.createStatement();
             // buat query
             // SELECT id_dokter,nama from puspa.dokter 
-            String query = "SELECT id_dokter,nama from dokter";
+            String query = "SELECT ID_DOKTER,NAMA from Dokter";
             // kosongkan list 
             setDaftarDokter(new ArrayList<Dokter>());
             // jalankan/eksekusi queri
             ResultSet rs = statement.executeQuery(query);
             while(rs.next()){
                 Dokter temp = new Dokter();
-                temp.setIdDokter(rs.getString("id_dokter"));
+                temp.setIdDokter(rs.getString("ID_DOKTER"));
                 temp.setNama(rs.getString(2));
                 // tambahkan ke list
                 getDaftarDokter().add(temp);
